@@ -846,6 +846,8 @@ static void acpi_sleep_suspend_setup(void)
 {
 	int i;
 
+	pr_info("ACPI Sleep - Entering acpi_sleep_suspend_setup");
+
 	for (i = ACPI_STATE_S1; i < ACPI_STATE_S4; i++)
 		if (acpi_sleep_state_supported(i))
 			sleep_states[i] = 1;
@@ -893,6 +895,9 @@ static struct syscore_ops acpi_sleep_syscore_ops = {
 
 static void acpi_sleep_syscore_init(void)
 {
+
+	pr_info("ACPI Sleep - Entering acpi_sleep_syscore_init");
+
 	register_syscore_ops(&acpi_sleep_syscore_ops);
 }
 #else
@@ -1028,6 +1033,9 @@ static const struct platform_hibernation_ops acpi_hibernation_ops_old = {
 
 static void acpi_sleep_hibernate_setup(void)
 {
+
+	pr_info("ACPI Sleep - Entering acpi_sleep_hibernate_setup");
+
 	if (!acpi_sleep_state_supported(ACPI_STATE_S4))
 		return;
 
@@ -1066,6 +1074,8 @@ int __init acpi_sleep_init(void)
 	char supported[ACPI_S_STATE_COUNT * 3 + 1];
 	char *pos = supported;
 	int i;
+
+	pr_info("ACPI Sleep - Entering acpi_sleep_init");
 
 	acpi_sleep_dmi_check();
 

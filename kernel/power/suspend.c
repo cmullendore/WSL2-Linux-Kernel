@@ -75,6 +75,9 @@ EXPORT_SYMBOL_GPL(pm_suspend_default_s2idle);
 
 void s2idle_set_ops(const struct platform_s2idle_ops *ops)
 {
+
+	pr_info("ACPI Sleep - Entering s2idle_set_ops");
+
 	lock_system_sleep();
 	s2idle_ops = ops;
 	unlock_system_sleep();
@@ -389,6 +392,10 @@ void __weak arch_suspend_enable_irqs(void)
 static int suspend_enter(suspend_state_t state, bool *wakeup)
 {
 	int error;
+
+	pr_info("Suspend - Entering suspend_enter - Target state: %n", state);
+
+	pr_info("Suspend - Entering suspend_enter");
 
 	error = platform_suspend_prepare(state);
 	if (error)
