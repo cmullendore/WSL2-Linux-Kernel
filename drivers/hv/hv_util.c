@@ -327,6 +327,7 @@ static int hv_get_adj_host_time(struct timespec64 *ts)
 			     (timediff_adj * 100));
 		ret = -ESTALE;
 	}
+	
 
 	newtime = host_ts.host_time + timediff_adj;
 	*ts = ns_to_timespec64(reftime_to_ns(newtime));
@@ -368,6 +369,8 @@ static inline void adj_guesttime(u64 hosttime, u64 reftime, u8 adj_flags)
 	 */
 	spin_lock_irqsave(&host_ts.lock, flags);
 
+	pr_info("TimeSync flags %d\n", adj_flags);
+
 	cur_reftime = hv_read_reference_counter();
 	host_ts.host_time = hosttime;
 	host_ts.ref_time = cur_reftime;
@@ -384,7 +387,7 @@ static inline void adj_guesttime(u64 hosttime, u64 reftime, u8 adj_flags)
 	spin_unlock_irqrestore(&host_ts.lock, flags);
 
 	/* Schedule work to do do_settimeofday64() */
-	if (adj_flags & ICTIMESYNCFLAG_SYNC)
+	//if (adj_flags & ICTIMESYNCFLAG_SYNC)
 		schedule_work(&adj_time_work);
 }
 
